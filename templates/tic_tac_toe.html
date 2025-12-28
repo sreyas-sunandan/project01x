@@ -1,0 +1,44 @@
+{% load static %}
+
+<main class="main game-yellow-bg">
+  <section class="container text-center" style="margin-top:120px;">
+
+    <!-- SYMBOL SELECT -->
+    <div id="symbolSelect" class="symbol-select-wrapper">
+      <div class="symbol-card">
+        <h3 class="symbol-heading">CHOOSE YOUR SYMBOL</h3>
+        <button class="btn btn-dark me-3" onclick="chooseSymbol('X')">Play as X</button>
+        <button class="btn btn-dark" onclick="chooseSymbol('O')">Play as O</button>
+      </div>
+    </div>
+
+    <!-- GAME AREA -->
+	 <div id="gameArea" style="display:none;">
+
+	  <!-- BOARD CENTER WRAPPER -->
+	  <div class="board-wrapper">
+		<div class="board">
+		  {% for i in "012345678" %}
+		    <div class="cell" onclick="makeMove({{ forloop.counter0 }})"></div>
+		  {% endfor %}
+
+		  <!-- RESULT POPUP -->
+		  <div id="resultPopup" class="result-popup"></div>
+		</div>
+	  </div>
+
+	  <p id="status"></p>
+
+	  <div class="restart-wrapper">
+		<button onclick="resetGame()" class="btn btn-dark mt-4">Restart</button>
+	  </div>
+	</div>
+
+
+  </section>
+</main>
+
+
+<link rel="stylesheet" href="{% static 'assets/css/ttt.css' %}">
+<script src="{% static 'assets/js/ttt.js' %}"></script>
+

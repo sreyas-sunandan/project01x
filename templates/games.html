@@ -1,0 +1,104 @@
+{% load static %}
+{% include 'user_header.html' %}
+
+<main class="main">
+  <section class="container" style="margin-top:120px; max-width:1000px;">
+
+    <h2 class="text-center mb-4 gold-text">Games</h2>
+
+    <!-- GAME CARDS -->
+    <div class="game-launch-grid mb-5">
+
+      <!-- TIC TAC TOE -->
+      <div class="game-launch-card"
+           onclick="loadGame('{% url 'tic_tac_toe' %}')">
+        <div class="game-preview"
+             style="background-image:url('{% static 'assets/img/games/ttt.jpg' %}');">
+        </div>
+        <div class="game-info">
+          <h5>Tic Tac Toe</h5>
+          <button class="btn btn-outline-warning btn-sm">
+            Play Now
+          </button>
+        </div>
+      </div>
+
+      <!-- ROCK PAPER SCISSORS -->
+      <div class="game-launch-card"
+           onclick="loadGame('/games/rps/')">
+        <div class="game-preview"
+             style="background-image:url('{% static 'assets/img/games/rps.jpg' %}');">
+        </div>
+        <div class="game-info">
+          <h5>Rock Paper Scissors</h5>
+          <button class="btn btn-outline-warning btn-sm">
+            Play Now
+          </button>
+        </div>
+      </div>
+
+      <!-- FLAPPY BIRD -->
+      <div class="game-launch-card"
+           onclick="loadGame('{% url 'game_home' %}')">
+        <div class="game-preview"
+             style="background-image:url('{% static 'assets/img/games/flappy.jpg' %}');">
+        </div>
+        <div class="game-info">
+          <h5>Flappy Bird</h5>
+          <button class="btn btn-outline-warning btn-sm">
+            Play Now
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GAME NAVBAR -->
+    <div id="game-navbar"
+         style="display:none; background:#111; color:#fff;
+                padding:10px 16px; border-radius:10px 10px 0 0;
+                justify-content:space-between; align-items:center;">
+      <strong>Game Running</strong>
+      <div>
+        <button onclick="fullscreenGame()">Fullscreen</button>
+        <button onclick="closeGame()">Close</button>
+      </div>
+    </div>
+
+    <!-- GAME FRAME -->
+    <iframe id="game-frame"
+            src=""
+            width="100%"
+            height="600"
+            style="border:none; display:none; border-radius:0 0 10px 10px;">
+    </iframe>
+
+  </section>
+</main>
+
+{% include 'public_footer.html' %}
+
+<script>
+  const frame = document.getElementById("game-frame");
+  const navbar = document.getElementById("game-navbar");
+
+  function loadGame(url) {
+    frame.src = url;
+    frame.style.display = "block";
+    navbar.style.display = "flex";
+    frame.scrollIntoView({ behavior: "smooth" });
+  }
+
+  function closeGame() {
+    frame.src = "";
+    frame.style.display = "none";
+    navbar.style.display = "none";
+  }
+
+  function fullscreenGame() {
+    if (frame.requestFullscreen) {
+      frame.requestFullscreen();
+    }
+  }
+</script>
+

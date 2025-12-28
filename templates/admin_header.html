@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Panel</title>
+
+  <!-- Favicons -->
+  <link rel="icon" href="{% static 'assets/img/favicon.png' %}">
+  <link rel="apple-touch-icon" href="{% static 'assets/img/favicon.png' %}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Poppins&family=Raleway&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS -->
+  <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/aos/aos.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}">
+  <link rel="stylesheet" href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}">
+
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+</head>
+
+<body class="index-page">
+
+<header id="admin_sidebar" class="admin_sidebar">
+  <div class="admin_brand">
+    <img src="{% static 'assets/img/logo.png' %}"
+         alt="Project Logo"
+         class="admin_logo">
+    <h2>project01x</h2>
+  </div>
+
+  <nav class="admin_menu">
+   {% if user.is_superuser %}
+    <a href="{% url 'admin_home' %}">
+      <i class="bi bi-house"></i> Dashboard
+    </a>
+	
+	  
+	<a href="{% url 'manage_users' %}"><i class="bi bi-people"></i>
+		Manage Users
+	</a>
+    <a href="#"><i class="bi bi-exclamation-triangle"></i> Complaints</a>
+    <a href="#"><i class="bi bi-bell"></i> Notifications</a>
+
+    <a href="/" class="admin_logout">
+      <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+    {% endif %}
+  </nav>
+</header>
+

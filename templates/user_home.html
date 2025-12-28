@@ -1,0 +1,19 @@
+{% include 'user_header.html' %}
+  <main class="main">
+
+    <section class="hero d-flex align-items-center justify-content-center" style="min-height:100vh;">
+
+      <img src="/static/assets/img/home-bg.png" alt="" data-aos="fade-in">
+
+   
+	  <div class="container" data-aos="zoom-out" data-aos-delay="100">
+	  	<h2>Player Ready</h2>
+		<p>Hello {{ request.user.username }}</p>
+	</div>
+	  </div>
+
+    </section>
+
+  </main>
+
+{% include 'public_footer.html' %}

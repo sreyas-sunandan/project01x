@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Flappy Bird Clone</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'assets/game/style.css' %}">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+        rel="stylesheet">
+</head>
+<body>
+
+  <!-- 🔥 GAME CONTAINER (REQUIRED) -->
+  <div id="game-container">
+
+    <!-- BIRD (REQUIRED) -->
+    <img id="bird" src="{% static 'assets/game/bird.png' %}" />
+
+    <!-- SCORE (REQUIRED) -->
+    <div id="score">0</div>
+
+    <!-- GAME OVER POPUP -->
+    <div id="game-over-popup">
+      <div id="popup-content">
+        <p>Game Over</p>
+
+        <h1>Your Score: <span id="final-score">0</span></h1>
+        <h2 style="margin-top:10px;">
+          High Score: <span id="high-score">0</span>
+        </h2>
+
+        <button id="restart-btn">Restart</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JS -->
+  <script src="{% static 'assets/game/script.js' %}"></script>
+</body>
+</html>
+

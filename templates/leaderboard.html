@@ -1,0 +1,162 @@
+{% load static %}
+{% include 'user_header.html' %}
+
+<main class="main">
+  <section class="container leaderboard-container mt-5 pt-4">
+
+    <!-- 🏆 TOP 3 OVERALL (BIG + CENTERED) -->
+    <div class="top3-wrapper">
+      <div class="top3-card text-center glow-hover">
+
+        <h2>🏆 Top 3 Players</h2>
+
+        <table class="table table-dark text-center compact-table mb-0">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>User</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in top3 %}
+            <tr>
+              <td class="{% if forloop.counter == 1 %}rank-1{% elif forloop.counter == 2 %}rank-2{% elif forloop.counter == 3 %}rank-3{% endif %}">
+                {{ forloop.counter }}
+              </td>
+              <td class="user-col">
+				  <div class="user-cell">
+					<img src="{{ row.user.userprofile.avatar.url }}" class="avatar-sm">
+					<span class="username-text">{{ row.user.username }}</span>
+				  </div>
+			  </td>
+        <td>{{ row.score }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="3">No overall data</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- TOGGLE BUTTON -->
+    <div class="text-center mb-4">
+      <button id="toggleBtn"
+              class="btn btn-outline-warning toggle-btn"
+              onclick="toggleIndividuals()">
+        View Individual Leaderboards
+      </button>
+    </div>
+
+    <!-- INDIVIDUAL LEADERBOARDS (2 PER ROW) -->
+    <div id="individual-leaderboards" class="d-none leaderboard-flex">
+
+      <!-- TIC TAC TOE -->
+      <div class="table-card glow-hover">
+        <h3>Tic Tac Toe</h3>
+        <table class="table table-dark text-center compact-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>User</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in ttt_all %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+				<td class="user-col">
+				  <div class="user-cell">
+					<img src="{{ row.userprofile.avatar.url }}" class="avatar-sm">
+					<span class="username-text">{{ row.username }}</span>
+				  </div>
+				</td>
+
+              <td>{{ row.score }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- ROCK PAPER SCISSORS -->
+      <div class="table-card glow-hover">
+        <h3>Rock Paper Scissors</h3>
+        <table class="table table-dark text-center compact-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>User</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rps_all %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+             <td class="user-col">
+				  <div class="user-cell">
+					<img src="{{ row.userprofile.avatar.url }}" class="avatar-sm">
+					<span class="username-text">{{ row.username }}</span>
+				  </div>
+			  </td>
+
+              <td>{{ row.score }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- FLAPPY BIRD -->
+      <div class="table-card glow-hover">
+        <h3>Flappy Bird</h3>
+        <table class="table table-dark text-center compact-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>User</th>
+              <th>Best</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in score_game %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+               <td class="user-col">
+				  <div class="user-cell">
+					<img src="{{ row.userprofile.avatar.url }}" class="avatar-sm">
+					<span class="username-text">{{ row.username }}</span>
+				  </div>
+			  </td>
+              <td>{{ row.best_score }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </section>
+</main>
+
+{% include 'public_footer.html' %}
+
+<script>
+function toggleIndividuals() {
+  const section = document.getElementById("individual-leaderboards");
+  const btn = document.getElementById("toggleBtn");
+
+  section.classList.toggle("d-none");
+  btn.innerText = section.classList.contains("d-none")
+    ? "View Individual Leaderboards"
+    : "Hide Individual Leaderboards";
+}
+</script>
+

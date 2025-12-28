@@ -1,0 +1,124 @@
+{% include 'user_header.html' %}
+
+<main class="main">
+  <section class="container" style="margin-top:120px; max-width:900px;">
+
+    <!-- ================= PLAYER HEADER ================= -->
+    <div class="lux-card text-light text-center p-5 mb-5 glow-hover">
+
+      <!-- Avatar -->
+<div class="mb-4">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="avatar-wrapper">
+
+      {% if request.user == player %}
+        <!-- CLICKABLE AVATAR -->
+        <label for="avatar-input" class="avatar-clickable">
+          <img
+            src="{{ player.userprofile.avatar.url }}"
+            class="rounded-circle gold-border avatar-glow"
+            width="120"
+            height="120"
+            title="Click to change profile picture"
+          >
+        </label>
+        <input
+          type="file"
+          id="avatar-input"
+          name="avatar"
+          accept="image/*"
+          hidden
+          onchange="this.form.submit()"
+        >
+      {% else %}
+        <!-- VIEW ONLY AVATAR -->
+        <img
+          src="{{ player.userprofile.avatar.url }}"
+          class="rounded-circle gold-border avatar-glow"
+          width="120"
+          height="120"
+        >
+      {% endif %}
+
+      <!-- RANK BADGE -->
+      <span class="avatar-rank">
+        {{ rank }}
+      </span>
+
+    </div>
+  </form>
+</div>
+
+
+
+      <!-- Username -->
+      <h2 class="fw-bold gold-text mb-2">{{ player.username }}</h2>
+
+      <!-- Overall Score -->
+      <h3>score</h3>
+      <h3 class="fw-bold gold-text">{{ overall_score }}</h3>
+
+      <!-- Progress -->
+      <div class="progress mx-auto mt-3" style="height:18px; max-width:340px;">
+        <div class="progress-bar progress-bar-striped progress-bar-animated"
+             style="width: {{ overall_score|floatformat:0 }}%;"
+             aria-valuenow="{{ overall_score }}"
+             aria-valuemin="0"
+             aria-valuemax="300">
+        </div>
+      </div>
+    </div>
+
+<!-- ================= GAME STATS ================= -->
+<div class="game-grid">
+
+  {% if ttt.wins or ttt.losses or ttt.score %}
+  <div class="game-col">
+    <div class="lux-card game-card text-light p-4">
+      <h5 class="gold-text mb-3">Tic Tac Toe</h5>
+      <p>Wins: <strong>{{ ttt.wins }}</strong></p>
+      <p>Losses: <strong>{{ ttt.losses }}</strong></p>
+      <p class="fs-5 gold-text">Score: {{ ttt.score }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if rps.wins or rps.losses or rps.score %}
+  <div class="game-col">
+    <div class="lux-card game-card text-light p-4">
+      <h5 class="gold-text mb-3"> Rock Paper Scissors</h5>
+      <p>Wins: <strong>{{ rps.wins }}</strong></p>
+      <p>Losses: <strong>{{ rps.losses }}</strong></p>
+      <p class="fs-5 gold-text">Score: {{ rps.score }}</p>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if best_score > 0 %}
+  <div class="game-col">
+    <div class="lux-card game-card text-light p-4">
+      <h5 class="gold-text mb-2">Flappy Bird</h5>
+      <p class="text-muted mb-1">High Score</p>
+      <h3 class="fw-bold">{{ best_score }}</h3>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if not ttt.wins and not rps.wins and best_score == 0 %}
+  <div class="game-col">
+    <div class="lux-card text-muted p-4 text-center">
+      <p class="mb-1">No games played yet</p>
+      <small class="gold-text">Start playing to build your legacy</small>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+
+  </section>
+</main>
+
+{% include 'public_footer.html' %}
+
