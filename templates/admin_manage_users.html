@@ -1,14 +1,15 @@
-{% include "user_header.html" %}
+{% include "admin_header.html" %}
 
-<main class="main">
+<main class="admin_content">
   <section class="container" style="margin-top:120px;">
 
-    <h2 class="mb-4 text-center">👥 User Management</h2>
+    <h2 class="mb-4 text-center">User Management</h2>
 
-    <table class="table table-dark table-striped text-center">
+    <table class="table table-dark table-striped text-center align-middle">
       <thead>
         <tr>
           <th>#</th>
+          <th>Avatar</th>
           <th>Username</th>
           <th>Email</th>
           <th>Joined</th>
@@ -20,11 +21,29 @@
         {% for user in users %}
         <tr>
           <td>{{ forloop.counter }}</td>
+
+          <!-- AVATAR -->
+          <td>
+            {% if user.userprofile.avatar %}
+              <img
+                src="{{ user.userprofile.avatar.url }}"
+                alt="avatar"
+                width="45"
+                height="45"
+                class="rounded-circle border"
+              >
+            {% else %}
+              <span class="text-muted">—</span>
+            {% endif %}
+          </td>
+
           <td>{{ user.username }}</td>
           <td>{{ user.email|default:"-" }}</td>
           <td>{{ user.date_joined|date:"d M Y" }}</td>
+
           <td>
-            <form method="post" action="{% url 'delete_user' user.id %}"
+            <form method="post"
+                  action="{% url 'delete_user' user.id %}"
                   onsubmit="return confirm('Delete this account?');">
               {% csrf_token %}
               <button class="btn btn-danger btn-sm">
@@ -33,9 +52,10 @@
             </form>
           </td>
         </tr>
+
         {% empty %}
         <tr>
-          <td colspan="5">No users found</td>
+          <td colspan="6">No users found</td>
         </tr>
         {% endfor %}
       </tbody>

@@ -35,6 +35,15 @@ urlpatterns = [
 	path("player/<int:user_id>/", views.player_profile, name="player_profile"),
 	path("manage-users/", views.manage_users, name="manage_users"),
     path("manage-users/delete/<int:user_id>/", views.delete_user, name="delete_user"),
+    path("notifications/", views.admin_notifications, name="admin_notifications"),
+	path("notifications/send/", views.send_notification, name="send_notification"),
+	path("notifications/delete/<int:pk>/", views.delete_notification, name="delete_notification"),
+	path("complaints/send/", views.send_complaint, name="send_complaint"),
+	path("complaints/my/", views.my_complaints, name="my_complaints"),
+
+    path("admin-panel/complaints/", views.admin_complaints, name="admin_complaints"),
+
+
 
 
 ]

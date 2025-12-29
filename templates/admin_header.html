@@ -31,9 +31,7 @@
 
 <header id="admin_sidebar" class="admin_sidebar">
   <div class="admin_brand">
-    <img src="{% static 'assets/img/logo.png' %}"
-         alt="Project Logo"
-         class="admin_logo">
+   <!-- <img src="{% static 'assets/img/logo.png' %}" alt="Project Logo" class="admin_logo"> -->
     <h2>project01x</h2>
   </div>
 
@@ -47,10 +45,10 @@
 	<a href="{% url 'manage_users' %}"><i class="bi bi-people"></i>
 		Manage Users
 	</a>
-    <a href="#"><i class="bi bi-exclamation-triangle"></i> Complaints</a>
-    <a href="#"><i class="bi bi-bell"></i> Notifications</a>
+    <a href="{% url 'admin_complaints' %}"><i class="bi bi-exclamation-triangle"></i> Complaints</a>
+    <a href="{% url 'admin_notifications' %}"><i class="bi bi-bell"></i> Notifications</a>
 
-    <a href="/" class="admin_logout">
+    <a href="{% url 'logout' %}" class="admin_logout">
       <i class="bi bi-box-arrow-right"></i> Logout
     </a>
     {% endif %}

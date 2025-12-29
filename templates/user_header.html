@@ -57,6 +57,48 @@
 				</a>
 			  </li>
 			{% endif %}
+			<li class="dropdown">
+				<a href="#" data-bs-toggle="dropdown">
+				  Notifications
+				  {% if user_notifications %}
+					<span class="badge bg-danger">{{ user_notifications|length }}</span>
+				  {% endif %}
+				</a>
+
+				<ul class="dropdown-menu dropdown-menu-end p-3" style="width:320px;">
+				  {% for n in user_notifications %}
+					<li class="mb-2 text-white">
+					  <strong>{{ n.title }}</strong>
+					  <p class="small mb-0">{{ n.message }}</p>
+					</li>
+					<li><hr class="dropdown-divider"></li>
+				  {% empty %}
+					<li class="text-center text-white">No notifications</li>
+				  {% endfor %}
+				</ul>
+
+			</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
+     Support
+  </a>
+
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li>
+      <a class="dropdown-item" href="{% url 'send_complaint' %}">
+         Send Complaint
+      </a>
+    </li>
+
+    <li>
+      <a class="dropdown-item" href="{% url 'my_complaints' %}">
+         My Complaints
+      </a>
+    </li>
+  </ul>
+</li>
+
+
 			<li>
  			 <a href="{% url 'logout' %}" class="text-danger fw-bold">Logout</a>
  			</li>

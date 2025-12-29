@@ -1,0 +1,25 @@
+{% include "user_header.html" %}
+ <main class="main">
+   <section class="container" style="margin-top:120px; max-width:900px;">
+   <div class="lux-card text-light text-center p-5 mb-5 glow-hover">
+<form method="post" class="card p-4 bg-dark text-light">
+  {% csrf_token %}
+
+  <h4>📨 Send Complaint</h4>
+
+  <input type="text" name="subject"
+         class="form-control mb-3"
+         placeholder="Subject" required>
+
+  <textarea name="message"
+            class="form-control mb-3"
+            placeholder="Describe your issue"
+            rows="5" required></textarea>
+
+  <button class="btn btn-warning">Submit</button>
+</form>
+</div>
+</section>
+</main>
+
+{% include 'public_footer.html' %}

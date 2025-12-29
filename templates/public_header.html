@@ -49,6 +49,25 @@
 		<li><a href="/">Home</a></li>
 		<li><a href="/login/">Login</a></li>
 		<li><a href="/register/">Register</a></li>
+		<li class="dropdown">
+<a href="#" data-bs-toggle="dropdown">
+  Notifications
+</a>
+
+<ul class="dropdown-menu dropdown-menu-end p-3" style="width:320px;">
+  {% for n in public_notifications %}
+    <li class="mb-2 text-white">
+      <strong>{{ n.title }}</strong>
+      <p class="small mb-0">{{ n.message }}</p>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+  {% empty %}
+    <li class="text-center text-white">No notifications</li>
+  {% endfor %}
+</ul>
+
+</li>
+
 	  </ul>
 	</aside>
 

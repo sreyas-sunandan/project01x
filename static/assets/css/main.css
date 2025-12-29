@@ -197,7 +197,25 @@ body::after {
   z-index: 9999;
 }
 
+/* Support dropdown – dark theme */
+.dropdown-menu {
+  background-color: #0d0d0d;   /* black */
+  border: 1px solid #333;
+}
 
+.dropdown-item {
+  color: #ffffff;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: #1f1f1f;   /* dark grey */
+  color: #ffffff;
+}
+.dropdown-menu {
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
 /* Hero Section */
 .hero {
   position: relative;

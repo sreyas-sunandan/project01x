@@ -9,12 +9,18 @@ from django.db.models import Sum, Max, Q
 from collections import defaultdict
 from game.views import get_best_score_for_user 
 from django.views.decorators.cache import never_cache
-
+from django.utils import timezone
 # ------------------------------------------------------------
 # Template views
 
 def home_page(request):
     return render(request, 'public_home.html')
+    
+
+# ✅ admin check
+def is_admin(user):
+    return user.is_superuser
+
 
 def login_view(request):
     if request.method == "POST":
@@ -68,7 +74,7 @@ def register_view(request):
 
     return render(request, 'register.html')
 
-
+@user_passes_test(is_admin)
 def admin_home_page(request):
     return render(request, 'admin_home.html')
     
@@ -79,10 +85,6 @@ def user_home_page(request):
 def games(request):
     return render(request, "games.html")
 #-------------------------------------------------------------
-
-# ✅ admin check
-def is_admin(user):
-    return user.is_superuser
 
 
 @login_required
@@ -106,7 +108,76 @@ def delete_user(request, user_id):
     return redirect("manage_users")
 
 
+@user_passes_test(is_admin)
+def send_notification(request):
+    users = User.objects.filter(is_superuser=False)
 
+    if request.method == "POST":
+        title = request.POST.get("title")
+        message = request.POST.get("message")
+        target = request.POST.get("target")
+        user_id = request.POST.get("user")
+
+        if target == "user" and user_id:
+            Notification.objects.create(
+                title=title,
+                message=message,
+                target="user",
+                user_id=user_id
+            )
+        else:
+            Notification.objects.create(
+                title=title,
+                message=message,
+                target=target
+            )
+
+        return redirect("send_notification")
+
+    return render(request, "admin_send_notification.html", {
+        "users": users
+    })
+
+
+@user_passes_test(is_admin)
+def delete_notification(request, pk):
+    notification = get_object_or_404(Notification, pk=pk)
+
+    if request.method == "POST":
+        notification.delete()
+        return redirect("admin_notifications")
+
+    return redirect("admin_notifications")
+    
+@user_passes_test(is_admin)
+def admin_notifications(request):
+    notifications = Notification.objects.all().order_by("-created_at")
+    return render(request, "admin_notifications.html", {
+        "notifications": notifications
+    })
+
+
+@user_passes_test(is_admin)
+def admin_complaints(request):
+
+    if request.method == "POST":
+        complaint_id = request.POST.get("complaint_id")
+        reply = request.POST.get("reply")
+
+        # ✅ SAFETY CHECK
+        if complaint_id and reply:
+            complaint = get_object_or_404(Complaint, id=complaint_id)
+            complaint.admin_reply = reply
+            complaint.status = "replied"
+            complaint.replied_at = timezone.now()
+            complaint.save()
+
+        return redirect("admin_complaints")
+
+    complaints = Complaint.objects.all().order_by("-created_at")
+    return render(request, "admin_complaints.html", {
+        "complaints": complaints
+    })
 # ------------------------------------------------------------
 
 def tic_tac_toe(request):
@@ -114,7 +185,26 @@ def tic_tac_toe(request):
     
 def rps(request):
     return render(request, "rps.html")
-    
+
+@login_required
+def send_complaint(request):
+    if request.method == "POST":
+        Complaint.objects.create(
+            user=request.user,
+            subject=request.POST["subject"],
+            message=request.POST["message"]
+        )
+        return redirect("my_complaints")
+
+    return render(request, "send_complaint.html")  
+
+@login_required
+def my_complaints(request):
+    complaints = Complaint.objects.filter(user=request.user).order_by("-created_at")
+    return render(request, "my_complaints.html", {
+        "complaints": complaints
+    })
+
 
 @login_required
 def update_result(request):

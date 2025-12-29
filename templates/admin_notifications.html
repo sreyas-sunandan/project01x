@@ -1,0 +1,54 @@
+{% include "admin_header.html" %}
+
+<main class="admin_content">
+
+  <!-- TOP ACTION BAR -->
+  <div class="d-flex justify-content-end mb-3">
+    <a href="{% url 'send_notification' %}"
+       class="btn btn-warning">
+      ➕ Send Notification
+    </a>
+  </div>
+
+  <table class="table table-dark table-striped text-center align-middle">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Target</th>
+        <th>User</th>
+        <th>Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for n in notifications %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ n.title }}</td>
+        <td>{{ n.get_target_display }}</td>
+        <td>{{ n.user.username|default:"All/Public" }}</td>
+        <td>{{ n.created_at|date:"d M Y H:i" }}</td>
+
+        <td>
+          <form method="post"
+                action="{% url 'delete_notification' n.id %}"
+                onsubmit="return confirm('Delete this notification?');">
+            {% csrf_token %}
+            <button class="btn btn-danger btn-sm">
+              Delete
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6">No notifications</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</main>
+

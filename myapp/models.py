@@ -31,3 +31,54 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username
 
+
+class Notification(models.Model):
+    TARGET_CHOICES = [
+        ('user', 'Specific User'),
+        ('all', 'All Users'),
+        ('public', 'Public'),
+    ]
+
+    title = models.CharField(max_length=100)
+    message = models.TextField()
+
+    target = models.CharField(max_length=10, choices=TARGET_CHOICES)
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+class Complaint(models.Model):
+    STATUS_CHOICES = [
+        ('open', 'Open'),
+        ('replied', 'Replied'),
+        ('closed', 'Closed'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    subject = models.CharField(max_length=150)
+    message = models.TextField()
+
+    admin_reply = models.TextField(blank=True, null=True)
+
+    status = models.CharField(
+        max_length=10,
+        choices=STATUS_CHOICES,
+        default='open'
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    replied_at = models.DateTimeField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.subject}"
+
+
